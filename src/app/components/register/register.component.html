@@ -1,0 +1,30 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="signup-container p-4 border rounded">
+    <h2 class="text-center mb-4">Create Account</h2>
+    <form class="row g-3" (ngSubmit)="saveUser()">
+      <div class="col-auto">
+        <label for="signupEmail" class="visually-hidden">Email</label>
+        <input type="email"
+        class="form-control"
+        id="signupEmail"
+         placeholder="Email"
+         [(ngModel)]="email"
+         name="email"
+          required>
+      </div>
+      <div class="col-auto">
+        <label for="signupPassword" class="visually-hidden">Password</label>
+        <input type="password"
+        class="form-control"
+         id="signupPassword"
+         placeholder="Password"
+         [(ngModel)]="password"
+         name="password"
+         required>
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-3">Create Account</button>
+      </div>
+    </form>
+  </div>
+</div>
