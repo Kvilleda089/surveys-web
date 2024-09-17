@@ -60,7 +60,6 @@
       </tbody>
     </table>
 
-   
     <nav aria-label="Page navigation">
       <ul class="pagination">
         <li class="page-item" [class.disabled]="page === 1">
@@ -82,5 +81,46 @@
 
   <div *ngIf="!surveys.length">
     <p>No surveys found.</p>
+  </div>
+
+  <!-- Respuestas de encuestas -->
+  <div class="mt-5">
+    <h3>Survey Responses</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Survey Title</th>
+          <th>Description</th>
+          <th>Response Date</th>
+          <th>Modified User Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let answer of surveyResponses.items">
+          <td>{{ answer.survey.title }}</td>
+          <td>{{ answer.survey.description }}</td>
+          <td>{{ answer.response_date | date:'short' }}</td>
+          <td>{{ answer.modifiedUser.email }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="pageResponse === 1">
+          <button class="page-link" (click)="changeResponsePage(pageResponse - 1)" [disabled]="pageResponse === 1">
+            Previous
+          </button>
+        </li>
+        <li class="page-item">
+          <span class="page-link">{{ pageResponse }}</span>
+        </li>
+        <li class="page-item" [class.disabled]="pageResponse * pageResponse >= responseTotal">
+          <button class="page-link" (click)="changeResponsePage(pageResponse + 1)" [disabled]="pageResponse * pageSizeResponse >= responseTotal">
+            Next
+          </button>
+        </li>
+      </ul>
+    </nav>
   </div>
 </div>

@@ -6,6 +6,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { FormsSurveysComponent } from './components/forms-surveys/forms-surveys.component';
 import { AuthenticateGuard } from './authenticate.guard';
 import { HomeComponent } from './components/home/home.component';
+import { FillSurveyComponent } from './components/fill-survey/fill-survey.component';
+import { ViewSurveyComponent } from './components/view-survey/view-survey.component';
 
 
 const routes: Routes = [
@@ -13,7 +15,9 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthenticateGuard]},
   { path: 'register', component: RegisterComponent },
   { path: 'create-survey', component: FormsSurveysComponent, canActivate: [AuthenticateGuard]},
-  { path: 'create-survey/:id', component: FormsSurveysComponent, canActivate: [AuthenticateGuard]},
+  { path: 'preview-survey', component: ViewSurveyComponent, canActivate: [AuthenticateGuard]},
+  { path: 'update-survey/:id', component: FormsSurveysComponent, canActivate: [AuthenticateGuard]},
+  { path: 'answer-survey/:id', component: FillSurveyComponent, canActivate: [AuthenticateGuard]},
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 

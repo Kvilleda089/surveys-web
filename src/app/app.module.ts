@@ -12,6 +12,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptorInterceptor } from './auth-interceptor.interceptor';
 import { AuthService } from './auth-service.jwt';
 import { HomeComponent } from './components/home/home.component';
+import { ViewSurveyComponent } from './components/view-survey/view-survey.component';
+
 
 @NgModule({
   declarations: [
@@ -21,13 +23,15 @@ import { HomeComponent } from './components/home/home.component';
     FormsSurveysComponent,
     FillSurveyComponent,
     HomeComponent,
+    ViewSurveyComponent,
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    
   ],
   providers: [
     AuthService,

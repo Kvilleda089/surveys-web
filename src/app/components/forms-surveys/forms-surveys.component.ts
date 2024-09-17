@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Survey } from 'src/app/interface/survey.interface';
 import { SurveysService } from '../../serivices/surveys.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SurveyService } from '../service/survey-service';
+import * as alertify from 'alertifyjs';
 
 @Component({
   selector: 'app-forms-surveys',
@@ -21,7 +23,8 @@ export class FormsSurveysComponent implements OnInit {
 
   constructor(private surveyService:SurveysService,
               private router: Router,
-              private route: ActivatedRoute
+              private route: ActivatedRoute,
+              private surveyServiceTemp: SurveyService,
   ) { }
 
   ngOnInit() {
@@ -69,6 +72,12 @@ export class FormsSurveysComponent implements OnInit {
 
 
   onSubmit() {
+
+    if (!this.survey.title || !this.survey.description) {
+      this.alertNotifyError('Please fill in all required fields.');
+      return;
+    }
+
     const userData = localStorage.getItem('user');
     const user = JSON.parse(userData);
     this.userId = user.id;
@@ -86,7 +95,7 @@ export class FormsSurveysComponent implements OnInit {
       questions: transformedFields
     });
 
-
+    this.surveyServiceTemp.setSurvey(surveyToSend);
     const updateTransformQuestioNew =  this.survey.questions.map((question) => {
       if (!question.id) {
         return {
@@ -112,8 +121,10 @@ export class FormsSurveysComponent implements OnInit {
       this.updateSurvey(this.surveyId, surveyToUpdateSend);
     }else {
       this.surveyService.createSurvey(surveyToSend).subscribe(response => {
-        console.log('Encuesta creada', response);
+        this.alertNotifiySucces('The survey has been created successfully.');
         this.router.navigate(['/home']);
+      }, error =>{
+        this.alertNotifyError('Sorry, an error occurred while trying to save the survey. Please try again.');
       });
     }
   };
@@ -185,11 +196,27 @@ export class FormsSurveysComponent implements OnInit {
   }
 
   updateSurvey(surveyId: number, surveyBody: Survey){
-
     this.surveyService.updateSurveys(surveyId, surveyBody).subscribe(responseUpdate=>{
-      console.log("Survey updated ", responseUpdate);
+      this.alertNotifiySucces('The survey has been updated successfully.')
       this.router.navigate(['/home'])
+    }, error =>{
+      this.alertNotifyError('Sorry, an error occurred while trying to update. Please check your details carefully or try again later.');
     })
+  }
+
+  onPreview(){
+    this.surveyServiceTemp.setSurvey(this.survey);
+    this.router.navigate(['/preview-survey']);
+  }
+
+  alertNotifiySucces(message: string) {
+    alertify.set('notifier', 'position', 'top-center');
+    alertify.success(message)
+  };
+
+  alertNotifyError(message: string){
+    alertify.set('notifier', 'position', 'top-center');
+    alertify.error(message)
   }
 
 }
